@@ -1,0 +1,22 @@
+{
+  "name": "yr-lib",
+  "version": "1.0.0",
+  "description": "yr.no api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "weather",
+    "yr.no"
+  ],
+  "author": "Mohamad Al Moualem",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.16.2",
+    "moment": "^2.15.1",
+    "request": "^2.75.0",
+    "xml2js": "^0.4.17",
+    "xml2json": "^0.10.0"
+  }
+}
