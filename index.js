@@ -8,7 +8,7 @@ exports.LocationForecast = function(lat, lon, local_time, callback) {
 	request('http://api.met.no/weatherapi/locationforecast/1.9/?lat='+lat+';lon='+lon, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			fs.writeFile(__dirname + '/foo.xml', body, 'utf8');
-			xmlParsing(time, function(data) {
+			xmlParsing(local_time, function(data) {
 				callback(data);
 			});
 			
