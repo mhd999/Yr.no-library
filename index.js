@@ -4,7 +4,7 @@ var  	fs 		= require('fs'),
 		_ 		= require('lodash'),
 		moment	= require('moment');
 
-exports.LocationForecast = function(lat, lon, time, callback) {
+exports.LocationForecast = function(lat, lon, local_time, callback) {
 	request('http://api.met.no/weatherapi/locationforecast/1.9/?lat='+lat+';lon='+lon, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			fs.writeFile(__dirname + '/foo.xml', body, 'utf8');
@@ -17,7 +17,7 @@ exports.LocationForecast = function(lat, lon, time, callback) {
 }
 
 
-function xmlParsing(time, callback) {
+function xmlParsing(local_time, callback) {
 	var filterdData
 	fs.readFile(__dirname + '/foo.xml', function(err, data) {
 	    var jsonData = parser.toJson(data);
@@ -41,7 +41,7 @@ function xmlParsing(time, callback) {
 	    // 	console.log('sub', time);
 	    // }
 	    
-	    var time = moment(time).utc().format();
+	    var time = moment(local_time).utc().format();
     	time = time.substring(0, 13);
 
 	    fs.writeFile(__dirname + '/weatherjson.json', jsonData);
