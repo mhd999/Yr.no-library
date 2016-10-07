@@ -1,6 +1,6 @@
 {
   "name": "yr-lib",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "yr.no api",
   "main": "index.js",
   "scripts": {
@@ -11,8 +11,8 @@
     "yr.no"
   ],
   "author": "Mohamad Al Moualem",
-  "url" : "https://github.com/mhd999/Yr.no-library", 
-  "email" : " mohammad.al-mouallem@tomra.com",
+  "url": "https://github.com/mhd999/Yr.no-library",
+  "email": " mohammad.al-mouallem@tomra.com",
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.16.2",
