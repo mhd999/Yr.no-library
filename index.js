@@ -41,8 +41,10 @@ function xmlParsing(local_time, callback) {
 	    // 	console.log('sub', time);
 	    // }
 	    
-	    var time = moment(local_time).utc().format();
+	    var time = moment(local_time).utc().add(1, 'h').startOf('hour').format();
     	time = time.substring(0, 13);
+
+    	console.log(time);
 
 	    fs.writeFile(__dirname + '/weatherjson.json', jsonData);
 	    fs.readFile(__dirname + '/weatherjson.json', 'utf8', function(err, data) {
