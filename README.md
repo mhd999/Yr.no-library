@@ -14,7 +14,7 @@ $ npm install yr-lib
 #### ES5
 ```sh
 var LocationForecast = require('yr-lib').LocationForecast;
-LocationForecast(lat, lon, loca_time,function(data) {
+LocationForecast(lat, lon, local_time,function(data) {
 	//do something with data  
 });
 
@@ -22,7 +22,7 @@ LocationForecast(lat, lon, loca_time,function(data) {
 #### ES6
 ```sh
 import { LocationForecast } from 'yr-lib';
-LocationForecast(lat, lon, loca_time, data => {
+LocationForecast(lat, lon, local_time, data => {
 	//do something with data      
 });
 ```

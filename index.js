@@ -21,25 +21,6 @@ function xmlParsing(local_time, callback) {
 	var filterdData
 	fs.readFile(__dirname + '/foo.xml', function(err, data) {
 	    var jsonData = parser.toJson(data);
-
-
-	    // var dNumber = 0;
-	    // var doperation;
-	    // _.forEach(utcd, function(char) {
-	    // 	if(char === '+' || char === '-') {
-	    // 		doperation = char;
-	    // 	} else {
-	    // 		dNumber = Number(dNumber) + Number(char);
-	    // 	}
-	    // });
-	    // if(doperation === '+') {
-	    // 	var time = moment.utc().add(dNumber, 'h').startOf('hour').format();
-	    // 	console.log('add', time);
-	    // } else {
-	    // 	console.log(dNumber);
-	    // 	var time = moment.utc().subtract(dNumber, 'h').startOf('hour').format();
-	    // 	console.log('sub', time);
-	    // }
 	    
 	    var time = moment(local_time).utc().add(1, 'h').startOf('hour').format();
     	time = time.substring(0, 13);
