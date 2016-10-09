@@ -4,7 +4,19 @@ var  	fs 		= require('fs'),
 		_ 		= require('lodash'),
 		moment	= require('moment');
 
-exports.LocationForecast = function(lat, lon, local_time, callback) {
+exports.LocationForecast = function(lat, lon, callback) {
+	request('http://api.met.no/weatherapi/locationforecast/1.9/?lat='+lat+';lon='+lon, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			fs.writeFile(__dirname + '/foo.xml', body, 'utf8');
+			xmlParsing(null, function(data) {
+				callback(data);
+			});
+			
+		}
+	})
+}
+
+exports.CurrentLocationForecast = function(lat, lon, local_time, callback) {
 	request('http://api.met.no/weatherapi/locationforecast/1.9/?lat='+lat+';lon='+lon, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			fs.writeFile(__dirname + '/foo.xml', body, 'utf8');
@@ -22,20 +34,25 @@ function xmlParsing(local_time, callback) {
 	fs.readFile(__dirname + '/foo.xml', function(err, data) {
 	    var jsonData = parser.toJson(data);
 	    
-	    var time = moment(local_time).utc().add(1, 'h').startOf('hour').format();
-    	time = time.substring(0, 13);
-
-    	console.log(time);
+	    
 
 	    fs.writeFile(__dirname + '/weatherjson.json', jsonData);
 	    fs.readFile(__dirname + '/weatherjson.json', 'utf8', function(err, data) {
 	    	var parsedData = JSON.parse(data);
 
-		    filterdData = _.remove(parsedData.weatherdata.product.time, function(n) {
+	    	if(local_time != null) {
+	    		var time = moment(local_time).utc().add(1, 'h').startOf('hour').format();
+    				time = time.substring(0, 13);
+
+	    		filterdData = _.remove(parsedData.weatherdata.product.time, function(n) {
 		    	return n.from.substring(0,13) && n.to.substring(0,13) === time;
 	
-		    });
-		    callback(filterdData);
+			    });
+			    callback(filterdData);
+	    	} else {
+	    		callback(parsedData.weatherdata.product.time);	
+	    	}
+		    
 	    })
 
 	});
