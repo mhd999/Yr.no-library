@@ -1,6 +1,6 @@
 {
   "name": "yr-lib",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "yr.no api",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,7 @@
   "dependencies": {
     "lodash": "^4.16.2",
     "moment": "^2.15.1",
-    "request": "^2.75.0"
+    "request": "^2.75.0",
+    "xml2json": "^0.10.0"
   }
 }
