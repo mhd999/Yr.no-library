@@ -1,6 +1,5 @@
 var  	fs 		= require('fs'),
 		request = require('request'),
-		parser 	= require('xml2json'),
 		_ 		= require('lodash'),
 		moment	= require('moment');
 
