@@ -12,6 +12,8 @@ exports.LocationForecast = function(lat, lon, callback) {
 				callback(data);
 			});
 			
+		} else {
+			callback(body);
 		}
 	})
 }
@@ -24,6 +26,8 @@ exports.CurrentLocationForecast = function(lat, lon, local_time, callback) {
 				callback(data);
 			});
 			
+		}else {
+			callback(body);
 		}
 	})
 }
