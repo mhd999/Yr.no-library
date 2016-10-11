@@ -42,20 +42,31 @@ function xmlParsing(local_time, callback) {
 
 	    fs.writeFile(__dirname + '/weatherjson.json', jsonData);
 	    fs.readFile(__dirname + '/weatherjson.json', 'utf8', function(err, data) {
-	    	var parsedData = JSON.parse(data);
+	    	if(!err) {
+	    		var parsedData;
+	    		try {
+	    			parsedData = JSON.parse(data);
+	    		} catch(err) {
+	    			callback({"Error": "unable to parse the json weather file"});
+	    		}	    		
 
-	    	if(local_time != null) {
-	    		var time = moment(local_time).utc().add(1, 'h').startOf('hour').format();
-    				time = time.substring(0, 13);
+		    	if(local_time != null) {
+		    		var time = moment(local_time).utc().add(1, 'h').startOf('hour').format();
+	    				time = time.substring(0, 13);
 
-	    		filterdData = _.remove(parsedData.weatherdata.product.time, function(n) {
-		    	return n.from.substring(0,13) && n.to.substring(0,13) === time;
-	
-			    });
-			    callback(filterdData);
+		    		filterdData = _.remove(parsedData.weatherdata.product.time, function(n) {
+			    	return n.from.substring(0,13) && n.to.substring(0,13) === time;
+		
+				    });
+				    callback(filterdData);
+		    	} else {
+		    		callback(parsedData.weatherdata.product.time);	
+		    	}
+
 	    	} else {
-	    		callback(parsedData.weatherdata.product.time);	
+	    		callback({"Error": "unable to read the weather json file"});
 	    	}
+	    	
 		    
 	    })
 
