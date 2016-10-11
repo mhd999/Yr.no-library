@@ -21,8 +21,7 @@ exports.LocationForecast = function(lat, lon, callback) {
 exports.CurrentLocationForecast = function(lat, lon, local_time, callback) {
 	request('http://api.met.no/weatherapi/locationforecast/1.9/?lat='+lat+';lon='+lon, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
-			fs.writeFile(__dirname + '/foo.xml', body, 'utf8');
-			xmlParsing(local_time, function(data) {
+			xmlParsing(body, local_time, function(data) {
 				callback(data);
 			});
 			
@@ -33,43 +32,33 @@ exports.CurrentLocationForecast = function(lat, lon, local_time, callback) {
 }
 
 
-function xmlParsing(local_time, callback) {
+function xmlParsing(xml_data, local_time, callback) {
 	var filterdData
-	fs.readFile(__dirname + '/foo.xml', function(err, data) {
-	    var jsonData = parser.toJson(data);
-	    
-	    
+    var jsonData = parser.toJson(xml_data);  
 
-	    fs.writeFile(__dirname + '/weatherjson.json', jsonData);
-	    fs.readFile(__dirname + '/weatherjson.json', 'utf8', function(err, data) {
-	    	if(!err) {
-	    		var parsedData;
-	    		try {
-	    			parsedData = JSON.parse(data);
-	    		} catch(err) {
-	    			callback({"Error": "unable to parse the json weather file"});
-	    		}	    		
+	var parsedData;
+	try {
+		parsedData = JSON.parse(jsonData);
 
-		    	if(local_time != null) {
-		    		var time = moment(local_time).utc().add(1, 'h').startOf('hour').format();
-	    				time = time.substring(0, 13);
+		if(local_time != null) {
+		var time = moment(local_time).utc().add(1, 'h').startOf('hour').format();
+			time = time.substring(0, 13);
 
-		    		filterdData = _.remove(parsedData.weatherdata.product.time, function(n) {
-			    	return n.from.substring(0,13) && n.to.substring(0,13) === time;
-		
-				    });
-				    callback(filterdData);
-		    	} else {
-		    		callback(parsedData.weatherdata.product.time);	
-		    	}
+		filterdData = _.remove(parsedData.weatherdata.product.time, function(n) {
+    	return n.from.substring(0,13) && n.to.substring(0,13) === time;
 
-	    	} else {
-	    		callback({"Error": "unable to read the weather json file"});
-	    	}
-	    	
-		    
-	    })
+	    });
+	    callback(filterdData);
 
-	});
+		} else {
+			callback(parsedData.weatherdata.product.time);	
+		}
+
+	} catch(err) {
+		callback({"Error": "unable to parse the json weather data"});
+	}	    		
+
+	
+
 	
 }
