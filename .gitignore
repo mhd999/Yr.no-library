@@ -2,3 +2,4 @@ node_modules
 foo.xml
 weatherjson.json
 example.js
+npm-debug.log
