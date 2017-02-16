@@ -33,21 +33,26 @@ exports.CurrentLocationForecast = function(lat, lon, local_time, callback) {
 
 
 function xmlParsing(xml_data, local_time, callback) {
-	var filterdData
+	var filterdData;
     var jsonData = parser.toJson(xml_data);  
-
 	var parsedData;
+
 	try {
 		parsedData = JSON.parse(jsonData);
-
 		if(local_time != null) {
 		var time = moment(local_time).utc().add(1, 'h').startOf('hour').format();
 			time = time.substring(0, 13);
+		var initFrom = parsedData.weatherdata.meta.model.from.substring(0, 13);
+
+		if(time < initFrom) {
+			time = initFrom;
+		}
 
 		filterdData = _.remove(parsedData.weatherdata.product.time, function(n) {
     	return n.from.substring(0,13) && n.to.substring(0,13) === time;
 
 	    });
+	    
 	    callback(filterdData);
 
 		} else {
