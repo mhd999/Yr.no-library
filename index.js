@@ -18,10 +18,10 @@ exports.LocationForecast = function(lat, lon, callback) {
 	})
 }
 
-exports.CurrentLocationForecast = function(lat, lon, local_time, callback) {
+exports.CurrentLocationForecast = function(lat, lon, local_time, time_diff_hour, callback) {
 	request('http://api.met.no/weatherapi/locationforecast/1.9/?lat='+lat+';lon='+lon, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
-			xmlParsing(body, local_time, function(data) {
+			xmlParsing(body, local_time, time_diff_hour, function(data) {
 				callback(data);
 			});
 			
@@ -32,7 +32,7 @@ exports.CurrentLocationForecast = function(lat, lon, local_time, callback) {
 }
 
 
-function xmlParsing(xml_data, local_time, callback) {
+function xmlParsing(xml_data, local_time, time_diff_hour, callback) {
 	var filterdData;
     var jsonData = parser.toJson(xml_data);  
 	var parsedData;
@@ -40,7 +40,7 @@ function xmlParsing(xml_data, local_time, callback) {
 	try {
 		parsedData = JSON.parse(jsonData);
 		if(local_time != null) {
-		var time = moment(local_time).utc().add(1, 'h').startOf('hour').format();
+		var time = moment(local_time).utc().add(time_diff_hour, 'h').startOf('hour').format();
 			time = time.substring(0, 13);
 		var initFrom = parsedData.weatherdata.meta.model.from.substring(0, 13);
 

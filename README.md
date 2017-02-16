@@ -30,7 +30,7 @@ LocationForecast(lat, lon, data => {
 #### ES5
 ```sh
 var CurrentLocationForecast = require('yr-lib').CurrentLocationForecast;
-CurrentLocationForecast(lat, lon, local_time,function(data) {
+CurrentLocationForecast(lat, lon, local_time, time_diff_hour, function(data) {
 	//do something with data  
 });
 
@@ -38,7 +38,7 @@ CurrentLocationForecast(lat, lon, local_time,function(data) {
 #### ES6
 ```sh
 import { CurrentLocationForecast } from 'yr-lib';
-CurrentLocationForecast(lat, lon, local_time, data => {
+CurrentLocationForecast(lat, lon, local_time, time_diff_hour, data => {
 	//do something with data      
 });
 ```
