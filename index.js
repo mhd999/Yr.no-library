@@ -1,5 +1,4 @@
-var  	fs 		= require('fs'),
-		request = require('request'),
+var  	request = require('request'),
 		parser 	= require('xml2json'),
 		_ 		= require('lodash'),
 		moment	= require('moment');
@@ -7,10 +6,8 @@ var  	fs 		= require('fs'),
 exports.LocationForecast = function(lat, lon, callback) {
 	request('http://api.met.no/weatherapi/locationforecast/1.9/?lat='+lat+';lon='+lon, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
-			fs.writeFile(__dirname + '/foo.xml', body, 'utf8');
-			xmlParsing(null, function(data) {
-				callback(data);
-			});
+			var jsonData = parser.toJson(body);
+			callback(jsonData);
 			
 		} else {
 			callback(body);
