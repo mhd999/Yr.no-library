@@ -1,6 +1,6 @@
 {
   "name": "yr-lib",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "yr.no api",
   "main": "index.js",
   "scripts": {
